@@ -5,16 +5,29 @@
 import pandas as pd
 import re
 import numpy as np
+import math
 import matplotlib.pyplot as plt
 
 K = 2
 Group_One = pd.DataFrame(columns=['one', 'two'])
 Group_Two = pd.DataFrame(columns=['one', 'two'])
 
+fig1 = plt.figure()
+fig1 = fig1.add_subplot(111)
+fig2 = plt.figure()
+fig2 = fig2.add_subplot(111)
+
 
 #------- FUNCTIONS -------#
+# Find the squared distance of two coordinates
 def getSquareDistance(a, b):
     return np.square(b['one']-a['one']) + np.square(b['two']-a['two'])
+
+# Find the average centroid of a group
+def averageCentroid(df):
+    x = df['one'].mean()
+    y = df['two'].mean()
+    return pd.Series([x, y], index=['one', 'two'])
 
 
 #------------------------------- MAIN ---------------------------------#
@@ -49,13 +62,14 @@ xy1 = centroids.loc[0]
 xy2 = centroids.loc[1]
     
 # Plot the centroids
-plt.scatter(centroids['one'], centroids['two'])
-plt.scatter(data['one'], data['two'])
+fig1.scatter(centroids['one'], centroids['two'])
+fig1.scatter(data['one'], data['two'])
 
 # Run K-means [K=2] to cluster the data into two groups
 Size1 = 0
 Size2 = 0
 
+# Run until the two groups don't change
 while(True):
     
     # Reset Groups
@@ -79,5 +93,17 @@ while(True):
         Size2 = len(Group_Two)
         
     # Create new Centroids
-    xy1 = average_Centroid(Group_One)
-    xy2 = average_Centroid(Group_Two)
+    xy1 = averageCentroid(Group_One)
+    xy2 = averageCentroid(Group_Two)
+    
+    
+# Make graph of the two groups
+fig2.scatter(Group_One['one'], Group_One['two'])
+fig2.scatter(Group_Two['one'], Group_Two['two'])
+fig2.scatter(xy1['one'], xy1['two'], marker='^')
+fig2.scatter(xy2['one'], xy2['two'], marker='^')
+
+# Print final centroids
+print("Final Centroids:")
+print(str('x: ' + str(xy1['one']) + ',  y: ' + str(xy1['two'])))
+print(str('x: ' + str(xy2['one']) + ',  y: ' + str(xy2['two'])))
