@@ -12,11 +12,6 @@ K = 2
 Group_One = pd.DataFrame(columns=['one', 'two'])
 Group_Two = pd.DataFrame(columns=['one', 'two'])
 
-fig1 = plt.figure()
-fig1 = fig1.add_subplot(111)
-fig2 = plt.figure()
-fig2 = fig2.add_subplot(111)
-
 
 #------- FUNCTIONS -------#
 # Find the squared distance of two coordinates
@@ -61,9 +56,15 @@ print("\n")
 xy1 = centroids.loc[0]
 xy2 = centroids.loc[1]
     
-# Plot the centroids
-fig1.scatter(centroids['one'], centroids['two'])
-fig1.scatter(data['one'], data['two'])
+# Plot the initial centroids and whole group
+plt.scatter(data['one'], data['two'])
+plt.scatter(xy1['one'], xy1['two'], marker='^')
+plt.scatter(xy2['one'], xy2['two'], marker='^')
+plt.xlabel('x1 Axis')
+plt.ylabel('x2 Axis')
+plt.title('Initial Data Points')
+plt.show()
+plt.cla()
 
 # Run K-means [K=2] to cluster the data into two groups
 Size1 = 0
@@ -98,10 +99,14 @@ while(True):
     
     
 # Make graph of the two groups
-fig2.scatter(Group_One['one'], Group_One['two'])
-fig2.scatter(Group_Two['one'], Group_Two['two'])
-fig2.scatter(xy1['one'], xy1['two'], marker='^')
-fig2.scatter(xy2['one'], xy2['two'], marker='^')
+plt.scatter(Group_One['one'], Group_One['two'])
+plt.scatter(Group_Two['one'], Group_Two['two'])
+plt.scatter(xy1['one'], xy1['two'], marker='^')
+plt.scatter(xy2['one'], xy2['two'], marker='^')
+plt.xlabel('x1 Axis')
+plt.ylabel('x2 Axis')
+plt.title('Clustered Data Points')
+
 
 # Print final centroids
 print("Final Centroids:")
