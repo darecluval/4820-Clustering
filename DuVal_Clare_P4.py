@@ -8,10 +8,6 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 
-K = 2
-Group_One = pd.DataFrame(columns=['one', 'two'])
-Group_Two = pd.DataFrame(columns=['one', 'two'])
-
 
 #------- FUNCTIONS -------#
 # Find the squared distance of two coordinates
@@ -23,6 +19,12 @@ def averageCentroid(df):
     x = df['one'].mean()
     y = df['two'].mean()
     return pd.Series([x, y], index=['one', 'two'])
+
+def calCost(df, xy):
+    tot = 0
+    for index, row in df.iterrows():
+        tot = tot + getSquareDistance(row, xy)
+    return tot
 
 
 #------------------------------- MAIN ---------------------------------#
@@ -47,14 +49,14 @@ centroids.columns = ['one', 'two']
 data = data[1:]
 data.columns = ['one', 'two']
 
-# Print the coordinates of the two initial centroids
-print("Initial Centroids:")
-for i, j in centroids.iterrows():
-    print(j['one'], j['two'])
-print("\n")
-
+# Split the two centroids
 xy1 = centroids.loc[0]
 xy2 = centroids.loc[1]
+
+# Print the coordinates of the two initial centroids
+print("\nInitial Centroids:")
+print(str('x: ' + str(xy1['one']) + ',  y: ' + str(xy1['two'])))
+print(str('x: ' + str(xy2['one']) + ',  y: ' + str(xy2['two'])))
     
 # Plot the initial centroids and whole group
 plt.scatter(data['one'], data['two'])
@@ -71,6 +73,8 @@ Size1 = 0
 Size2 = 0
 
 # Run until the two groups don't change
+Group_One = pd.DataFrame(columns=['one', 'two'])
+Group_Two = pd.DataFrame(columns=['one', 'two'])
 while(True):
     
     # Reset Groups
@@ -106,9 +110,13 @@ plt.scatter(xy2['one'], xy2['two'], marker='^')
 plt.xlabel('x1 Axis')
 plt.ylabel('x2 Axis')
 plt.title('Clustered Data Points')
+plt.show()
 
 
 # Print final centroids
 print("Final Centroids:")
 print(str('x: ' + str(xy1['one']) + ',  y: ' + str(xy1['two'])))
 print(str('x: ' + str(xy2['one']) + ',  y: ' + str(xy2['two'])))
+
+print("\nCost: ")
+print(calCost(Group_One, xy1) + calCost(Group_Two, xy2))
