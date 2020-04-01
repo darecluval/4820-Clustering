@@ -3,9 +3,7 @@
 # March 31 2020
 
 import pandas as pd
-import re
 import numpy as np
-import math
 import matplotlib.pyplot as plt
 
 
@@ -20,6 +18,7 @@ def averageCentroid(df):
     y = df['two'].mean()
     return pd.Series([x, y], index=['one', 'two'])
 
+#Error (J) Function
 def calCost(df, xy):
     tot = 0
     for index, row in df.iterrows():
@@ -119,4 +118,4 @@ print(str('x: ' + str(xy1['one']) + ',  y: ' + str(xy1['two'])))
 print(str('x: ' + str(xy2['one']) + ',  y: ' + str(xy2['two'])))
 
 print("\nCost: ")
-print(calCost(Group_One, xy1) + calCost(Group_Two, xy2))
+print((calCost(Group_One, xy1) + calCost(Group_Two, xy2))/(len(Group_One)+len(Group_Two)))
