@@ -118,4 +118,4 @@ print(str('x: ' + str(xy1['one']) + ',  y: ' + str(xy1['two'])))
 print(str('x: ' + str(xy2['one']) + ',  y: ' + str(xy2['two'])))
 
 print("\nCost: ")
-print((calCost(Group_One, xy1) + calCost(Group_Two, xy2))/(len(Group_One)+len(Group_Two)))
+print((calCost(Group_One, xy1) + calCost(Group_Two, xy2))/(Size1+Size2))
